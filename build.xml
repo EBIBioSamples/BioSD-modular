@@ -1,1 +1,93 @@
-../build.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="dist" name="BioSD">
+  <description>BioSample Database</description>
+  <!-- set global properties for this build -->
+  <property location="BioSD/src/main/java" name="src"/>
+  <property location="build" name="build"/>
+  <property location="dist" name="dist"/>
+  <property location="AGE" name="AGE"/>
+  <property location="AGE-admin" name="AGEAdmin"/>
+  <property location="AGE-Visual" name="AGEVisual"/>
+  <property location="Commons" name="Commons"/>
+  <property location="BioSD" name="BioSD"/>
+  <path id="build.lib">
+    <fileset dir="/home/faulcon/gwt-2.4.0" includes="*.jar"/>
+    <fileset dir="lib" includes="*.jar"/>
+  </path>
+  <path id="age.lib">
+    <fileset dir="lib/" includes="*.jar"/>
+  </path>
+  <path id="biosd.lib">
+    <fileset dir="${BioSD}/src/main/webapp/WEB-INF/lib/" includes="*.jar"/>
+  </path>
+  <path id="dist.lib">
+    <fileset dir="${build}/WEB-INF/lib/" includes="*.jar"/>
+  </path>
+  <target description="generate the distribution" name="dist">
+    <tstamp>
+      <format locale="en,UK" pattern="yyyy-MM-dd HH:mm z Z" property="BUILDTIME"/>
+    </tstamp>
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${build}/WEB-INF/classes"/>
+    <copy todir="${build}/WEB-INF">
+      <fileset dir="${BioSD}/src/main/webapp">
+        <exclude name="admin/"/>
+        <exclude name="biosd/"/>
+        <exclude name="var/"/>
+        <exclude name="**/.gitignore"/>
+        <exclude name="WEB-INF/classes"/>
+      </fileset>
+      <fileset dir="${AGEAdmin}/src/main/webapp">
+        <exclude name="admin/"/>
+        <exclude name="biosd/"/>
+        <exclude name="var/"/>
+        <exclude name="**/.gitignore"/>
+        <exclude name="WEB-INF/classes"/>
+      </fileset>
+    </copy>
+    <copy todir="${build}/WEB-INF/lib/">
+      <fileset dir="lib/"/>
+    </copy>
+    <javac classpath="${toString:build.lib}" debug="on" destdir="${build}/WEB-INF/classes" includeAntRuntime="false" nowarn="on" source="1.6" srcdir="${Commons}/src" target="1.6">
+      <compilerarg value="-Xlint:deprecation"/>
+    </javac>
+    <javac classpath="$${toString:dist.lib}:${toString:build.lib}" debug="on" destdir="${build}/WEB-INF/classes" includeAntRuntime="false" nowarn="on" source="1.7" srcdir="${AGEVisual}/src" target="1.7">
+      <compilerarg value="-Xlint:deprecation"/>
+    </javac>
+    <javac classpath="${toString:dist.lib}:${toString:build.lib}" debug="on" destdir="${build}/WEB-INF/classes" includeAntRuntime="false" nowarn="on" source="1.7" srcdir="${AGE}/src" target="1.7">
+      <compilerarg value="-Xlint:deprecation"/>
+    </javac>
+    <javac classpath="${toString:dist.lib}:${toString:build.lib}" debug="on" destdir="${build}/WEB-INF/classes" includeAntRuntime="false" nowarn="on" source="1.7" srcdir="${AGEAdmin}/src" target="1.7">
+      <compilerarg value="-Xlint:deprecation"/>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+    <javac classpath="${toString:dist.lib}:${toString:build.lib}" debug="on" destdir="${build}/WEB-INF/classes" includeAntRuntime="false" nowarn="on" srcdir="${src}" target="1.7">
+      <compilerarg value="-Xlint:deprecation"/>
+    </javac>
+    <echo>Staring GWT compiler</echo>
+    <java classname="com.google.gwt.dev.Compiler" failonerror="true" fork="true">
+      <classpath>
+        <pathelement location="${src}"/>
+        <pathelement location="${AGE}/src/main/java"/>
+        <pathelement location="${AGE}/src/main/resources"/>
+        <pathelement location="${BioSD}/src/main/java"/>
+        <pathelement location="${BioSD}/src/main/resources"/>
+        <pathelement location="${AGEAdmin}/src/main/java"/>
+        <pathelement location="${AGEAdmin}/src/main/resources"/>
+        <pathelement location="${AGEVisual}/src/main/java"/>
+        <pathelement location="${AGEVisual}/src/main/resources"/>
+        <path refid="build.lib"/>
+      </classpath>
+      <jvmarg value="-Xmx1G"/>
+      <arg value="-war"/>
+      <arg value="${build}"/>
+      <arg value="uk.ac.ebi.biosd.BioSD"/>
+      <arg value="uk.ac.ebi.age.admin.AgeAdmin"/>
+    </java>
+    <filter token="BUILDTIME" value="${BUILDTIME}"/>
+    <jar basedir="${build}" jarfile="${dist}/BioSD.war"/>
+  </target>
+</project>
