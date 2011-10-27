@@ -1,0 +1,15 @@
+[submodule "Commons"]
+	path = Commons
+	url = https://github.com/EBIBioSamples/Commons.git
+[submodule "AGE"]
+	path = AGE
+	url = https://github.com/EBIBioSamples/AGE.git
+[submodule "AGE-Visual"]
+	path = AGE-Visual
+	url = https://github.com/EBIBioSamples/AGE-Visual.git
+[submodule "AGE-admin"]
+	path = AGE-admin
+	url = https://github.com/EBIBioSamples/AGE-Admin.git
+[submodule "BioSD"]
+	path = BioSD
+	url = https://github.com/EBIBioSamples/BioSD.git
