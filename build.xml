@@ -2,6 +2,7 @@
 <project basedir="." default="dist" name="BioSD">
   <description>BioSample Database</description>
   <!-- set global properties for this build -->
+  <property file="build.properties" />
   <property location="build" name="build"/>
   <property location="dist" name="dist"/>
   <property location="AGE" name="AGE"/>
@@ -11,9 +12,8 @@
   <property location="BioSD" name="BioSD"/>
   <path id="lib">
     <fileset dir="lib/" includes="*.jar"/>
-    <!-- make sure gwt is on your PATH variable
-    <fileset dir="/home/faulcon/gwt-2.4.0/" includes="*.jar"/>
-    -->
+    <!-- make sure this is set in build.properties file -->
+    <fileset dir="${gwt.dir}" includes="*.jar"/>
   </path>
   <target description="generate the distribution" name="dist">
     <delete dir="${build}"/>
