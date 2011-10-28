@@ -1,0 +1,21 @@
+BioSD-modular
+=============
+
+
+This is a repository for easy compilation of the BioSD web-app.
+
+Ant
+---
+
+You must provide a file named "build.properties" that specifies the location of the Google Web Toolkit (GWT). 
+
+For example ::
+
+  gwt.dir=/home/root/gwt-2.4.0/
+
+Once that is present, it can be compiled by using the command "ant".
+
+Maven
+-----
+
+Maven support is partial.
