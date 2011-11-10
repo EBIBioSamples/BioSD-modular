@@ -1,6 +1,7 @@
 build
 dist
 gwt-unitCache
+target
 
 #machine-specific paths are in this file
 build.properties
